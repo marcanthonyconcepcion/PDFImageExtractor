@@ -2,13 +2,13 @@ from pathlib import Path
 from .configuration import YAMLConfigurationLoader
 
 
-class ConvertAPI:
+class PDFImageExtractor:
     def __init__(self, configuration_file=None):
         if configuration_file is None:
             configuration_file = Path(__file__).resolve().parent.parent / "config.yaml"
         self.configuration = YAMLConfigurationLoader().load(configuration_file)
 
-    def fetch_images_from_pdf(self, pdf_file_path):
+    def fetch(self, pdf_file_path):
         """
         Fetches images from a PDF file using the ConvertAPI service.
 

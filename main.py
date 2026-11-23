@@ -1,6 +1,6 @@
 import argparse
 from pathlib import Path
-from pdf_image_extractor import ConvertAPI
+from convert_api import PDFImageExtractor
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
         help="Path to the configuration YAML file",
     )
     args = parser.parse_args()
-    extracted_files = ConvertAPI(args.config_file).fetch_images_from_pdf(args.pdf_file)
+    extracted_files = PDFImageExtractor(args.config_file).fetch(args.pdf_file)
     for file_path in extracted_files:
         print(file_path)
 

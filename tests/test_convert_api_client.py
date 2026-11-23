@@ -1,5 +1,5 @@
 import pytest
-from pdf_image_extractor import YAMLConfigurationLoader, ConfigurationError, ConvertAPI
+from convert_api import YAMLConfigurationLoader, ConfigurationError, PDFImageExtractor
 import convertapi
 
 
@@ -22,7 +22,7 @@ def test_load_yaml_configuration_rejects_invalid_yaml(tmp_path):
         YAMLConfigurationLoader().load(configuration_file)
 
 
-def test_fetch_images_from_pdf_uses_configuration(monkeypatch, tmp_path):
+def test_fetch_uses_configuration(monkeypatch, tmp_path):
     pdf_file = tmp_path / "document.pdf"
     output_dir = tmp_path / "images"
     configuration_file = tmp_path / "config.yaml"
@@ -45,9 +45,11 @@ def test_fetch_images_from_pdf_uses_configuration(monkeypatch, tmp_path):
         captured["parameters"] = parameters
         captured["from_format"] = from_format
         return FakeResult()
+
+    monkeypatch.setattr(convertapi, "api_credentials", "previous-api-key", raising=False)
     monkeypatch.setattr(convertapi, "convert", fake_convert)
 
-    saved_files = ConvertAPI(configuration_file).fetch_images_from_pdf(pdf_file)
+    saved_files = PDFImageExtractor(configuration_file).fetch(pdf_file)
     assert saved_files == expected_files
     assert convertapi.api_credentials == "test-api-key"
     assert captured["convert_format"] == "extract-images"

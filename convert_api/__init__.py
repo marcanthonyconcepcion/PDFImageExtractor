@@ -4,12 +4,12 @@ from .configuration import (
     load_yaml_configuration,
 )
 
-from pdf_image_extractor.convert_api_client import (
-    ConvertAPI
+from convert_api.pdf_image_extractor import (
+    PDFImageExtractor
 )
 
 __all__ = [
-    "ConvertAPI",
+    "PDFImageExtractor",
     "ConfigurationError",
     "YAMLConfigurationLoader",
     "load_yaml_configuration",
